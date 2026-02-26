@@ -10,9 +10,7 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-access' ]]) {
-                    dir("${params.ENVIRONMENT}") {
-                        sh 'terraform init'
-                    }
+                    sh 'terraform init'
                 }
             }
         }
@@ -20,9 +18,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-access' ]]) {
-                    dir("${params.ENVIRONMENT}") {
-                        sh 'terraform plan -var-file="terraform.tfvars" -out=tfplan'
-                    }
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
@@ -30,18 +26,14 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-access' ]]) {
-                    dir("${params.ENVIRONMENT}") {
-                        sh 'terraform apply -auto-approve tfplan'
-                    }
+                    sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
 
         stage('Terraform Output') {
             steps {
-                dir("${params.ENVIRONMENT}") {
-                    sh 'terraform output'
-                }
+                sh 'terraform output'
             }
         }
     }
