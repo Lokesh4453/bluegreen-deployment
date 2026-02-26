@@ -1,7 +1,7 @@
 resource "aws_instance" "blue_server" {
   ami           = "ami-0f5ee92e2d63afc18"
   instance_type = "t2.micro"
-  key_name      = "your-key-name"   # IMPORTANT
+  key_name      = "awsdevops"   # IMPORTANT
 
   user_data = <<-EOF
               #!/bin/bash
